@@ -4,63 +4,75 @@ using UnityEngine;
 
 public class ActorController : MonoBehaviour
 {
-
-    public GameObject model; //抓取游戏对象，对象为playr
-    public PlayerInput pi;   //抓取当前对象的playerinput组件并设置为pi
-    public float walkSpeed = 1.4f;
-    public float runMultiplier = 2.7f;
-    public float jumpVelocity = 5.0f;
-    public float rollVelocity = 3.0f;
+    // 游戏对象，对象为palyer
+    public GameObject model;
+    // 当前对象的 PlayerInput 组件
+    public PlayerInput pi;
+    public float walkSpeed = 1.4f;          // 行走速度
+    public float runMultiplier = 2.7f;      // 跑步速度倍率
+    public float jumpVelocity = 5.0f;       // 跳跃速度
+    public float rollVelocity = 3.0f;       // 翻滚速度
 
     [Space(10)]
     [Header("===== Friction Settings =====")]
     public PhysicMaterial frictionOne;
     public PhysicMaterial frictionZero;
 
-    private Animator anim;
-    private Rigidbody rb;
-    private Vector3 planarVec;
-    private Vector3 thrustVec;// 冲量向量
-    private bool canAttack;
-    private bool lockPlanar = false;//是否锁死平面移动
-    private CapsuleCollider coll;
-    private float lerpTarget;
-    private Vector3 deltaPos;
+    private Animator anim;                  // 动画组件控制器
+    private Rigidbody rb;                   // 刚体组件
+    private Vector3 planarVec;              // 平面移动向量
+    private Vector3 thrustVec;              // 冲量向量
+    private bool canAttack;                 // 是否可以攻击
+    private bool lockPlanar = false;        // 是否锁死平面移动
+    private CapsuleCollider coll;           // 胶囊碰撞器组件
+    private float lerpTarget;               // 插值目标
+    private Vector3 deltaPos;               // 位置变化量
 
 
     void Awake()
     {
-        pi = GetComponent<PlayerInput>();  //加载当前对象的playerinput脚本
-        anim = model.GetComponent<Animator>(); //抓取当前对象的animator组件
-        rb = GetComponent<Rigidbody>();
-        coll = GetComponent<CapsuleCollider>();
+        pi = GetComponent<PlayerInput>();           // 获取当前对象的 PlayerInput 脚本
+        anim = model.GetComponent<Animator>();      // 获取当前对象的 Animator 脚本
+        rb = GetComponent<Rigidbody>();             // 获取当前对象的 Rigidbody 组件
+        coll = GetComponent<CapsuleCollider>();     // 获取当前对象的 CapsuleCollider 组件
     }
 
     // Update is called once per frame
     void Update()
     {
-        //print(pi);
+        // 根据玩家输入设置奔跑速度倍率
         float targetRunMulti = ((pi.run) ? 2.0f : 1.0f);
+        // 设置移动动画前进值
         anim.SetFloat("forward",pi.Dmag * Mathf.Lerp (anim.GetFloat("forward"),targetRunMulti,0.5f));//设置移动树的forward的值
+        // 设置防御动画的状态
         anim.SetBool("defense", pi.defense);
 
-        if (rb.velocity.magnitude > 1.0f)//根据下落速度进行播放roll动画
+        // 根据下落速度进行播放roll动画
+        if (rb.velocity.magnitude > 1.0f)
         {
             anim.SetTrigger("roll");
         }
+
+        // 如果玩家按下跳跃按钮，播放跳跃动画并停止攻击
         if (pi.jump)
         {
             anim.SetTrigger("jump");
             canAttack = false;
         }
+
+        // 如果玩家按下攻击按钮且当前状态为ground且可以攻击，播放攻击动画
         if (pi.attack && CheckState("ground")&& canAttack)
         {
             anim.SetTrigger("attack");
         }
+
+        // 当移动输入的值大于0.1f时，使用球形线性插值旋转模型
         if (pi.Dmag > 0.1f)
         {
-            model.transform.forward = Vector3.Slerp(model.transform.forward, pi.Dvec, 0.3f); //当移动输入的值小于0.1f是禁止旋转 ++ //线性插值球形线性法
+            model.transform.forward = Vector3.Slerp(model.transform.forward, pi.Dvec, 0.3f);
         }
+
+        // 如果锁定平面移动为false，则计算平面移动向量
         if (lockPlanar == false)
         {
             planarVec = pi.Dmag * model.transform.forward * walkSpeed * ((pi.run) ? runMultiplier : 1.0f); //移动
