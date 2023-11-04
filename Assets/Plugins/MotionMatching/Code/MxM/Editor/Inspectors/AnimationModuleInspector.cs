@@ -1,16 +1,17 @@
 ﻿// ============================================================================================
 // File: AnimationModuleInspector.cs
-//
+// 
 // Authors:  Kenneth Claassen
 // Date:     2020-07-05: Created this file.
-//
+// 
 //     Contains a part of the 'MxMEditor' namespace for 'Unity Engine'.
-//
+// 
 // Copyright (c) 2019 - 2020 Kenneth Claassen. All rights reserved.
 // ============================================================================================
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using GraphVisualizer;
 using UnityEditorInternal;
 using MxM;
 
@@ -39,7 +40,7 @@ namespace MxMEditor
         private ReorderableList m_idleSetReorderableList;
         private ReorderableList m_blendSpaceReorderableList;
 
-
+        
         private int m_currentCompositeCategory;
         private int m_queueDeleteCompositeCategory = -1;
         private int m_queueShiftCompositeCategoryUp = -1;
@@ -48,7 +49,7 @@ namespace MxMEditor
         //============================================================================================
         /**
         *  @brief Called just before the inspector is to be shown. Initializes serialized properties.
-        *
+        *         
         *********************************************************************************************/
         public void OnEnable()
         {
@@ -78,7 +79,7 @@ namespace MxMEditor
         //============================================================================================
         /**
         *  @brief Draws and manages the inspector GUI
-        *
+        *         
         *********************************************************************************************/
         public override void OnInspectorGUI()
         {
@@ -102,10 +103,10 @@ namespace MxMEditor
                 EditorGUILayout.ObjectField(m_spOverrideConfigModule,
                     typeof(MotionMatchConfigModule), new GUIContent("Config Module"));
 
-                EditorGUILayout.ObjectField(m_spOverrideTagModule,
+                EditorGUILayout.ObjectField(m_spOverrideTagModule, 
                     typeof(TagNamingModule), new GUIContent("Tag Module"));
 
-                EditorGUILayout.ObjectField(m_spOverrideEventModule,
+                EditorGUILayout.ObjectField(m_spOverrideEventModule, 
                     typeof(EventNamingModule), new GUIContent("Event Module"));
 
                 GUILayout.Space(5f);
@@ -120,7 +121,7 @@ namespace MxMEditor
                 GUILayout.Space(5f);
             }
 
-            EditorUtil.EditorFunctions.DrawFoldout("Animation Data", curHeight,
+            EditorUtil.EditorFunctions.DrawFoldout("Animation Data", curHeight, 
                 EditorGUIUtility.currentViewWidth, true);
 
 
@@ -169,14 +170,14 @@ namespace MxMEditor
 
             Texture cogIcon = EditorGUIUtility.IconContent("_Popup").image;
             GUIStyle invisiButton = new GUIStyle(GUI.skin.label);
-            if (GUILayout.Button(cogIcon, invisiButton))
+            if(GUILayout.Button(cogIcon, invisiButton))
             {
                 AnimModuleSettingsWindow.SetData(serializedObject, m_data);
                 AnimModuleSettingsWindow.ShowWindow();
             }
 
             EditorGUILayout.EndHorizontal();
-
+            
             GUILayout.Space(5f);
             curHeight += 5f;
 
@@ -333,8 +334,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private void ManageQueuedActions()
         {
@@ -392,8 +393,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private void DragDropComposites(Rect a_dropRect, int a_categoryId)
         {
@@ -443,8 +444,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private void DragDropIdles(Rect a_dropRect)
         {
@@ -494,8 +495,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private void DragDropBlendSpaces(Rect a_dropRect)
         {
@@ -545,8 +546,8 @@ namespace MxMEditor
 
         //===========================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public void CreateNewAnimationComposite(int a_categoryId)
         {
@@ -589,7 +590,7 @@ namespace MxMEditor
                 newComposite.TargetPreProcess = null;
                 newComposite.TargetPrefab = m_data.Prefab;
                 newComposite.CategoryId = a_categoryId;
-
+                
                 newComposite.ValidateBaseData();
 
                 EditorUtility.SetDirty(newComposite);
@@ -598,8 +599,8 @@ namespace MxMEditor
 
         //===========================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public bool CreateNewAnimationCompositeFromDrag(AnimationClip a_clip, int a_categoryId)
         {
@@ -651,7 +652,7 @@ namespace MxMEditor
                     newComposite.TargetAnimModule = m_data;
                     newComposite.TargetPrefab = m_data.Prefab;
                     newComposite.CategoryId = a_categoryId;
-
+                    
                     newComposite.ValidateBaseData();
 
                     EditorUtility.SetDirty(newComposite);
@@ -665,8 +666,8 @@ namespace MxMEditor
 
         //===========================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public bool CreateNewAnimationCompositeFromDrag(MxMAnimationClipComposite a_composite, int a_categoryId)
         {
@@ -715,8 +716,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public void CreateNewIdleSet()
         {
@@ -750,8 +751,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public bool CreateNewIdleSetFromDrag(AnimationClip a_primaryIdleAnim)
         {
@@ -799,8 +800,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public bool CreateNewIdleSetFromDrag(MxMAnimationIdleSet a_idleSet)
         {
@@ -840,8 +841,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public void CreateNewBlendSpace()
         {
@@ -875,15 +876,15 @@ namespace MxMEditor
                 newBlendSpace.Smoothing = defaultSettings.BlendSpaceSmoothing;
                 newBlendSpace.GlobalTags = defaultSettings.RequireTags;
                 newBlendSpace.GlobalFavourTags = defaultSettings.FavourTags;
-
+                
                 newBlendSpace.ValidateBaseData();
             }
         }
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public bool CreateNewBlendSpaceFromDrag(AnimationClip a_primaryBlendAnim)
         {
@@ -923,7 +924,7 @@ namespace MxMEditor
                     newBlendSpace.Smoothing = defaultSettings.BlendSpaceSmoothing;
                     newBlendSpace.GlobalTags = defaultSettings.RequireTags;
                     newBlendSpace.GlobalFavourTags = defaultSettings.FavourTags;
-
+                    
                     newBlendSpace.ValidateBaseData();
 
                     success = true;
@@ -935,8 +936,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         public bool CreateNewBlendSpaceFromDrag(MxMBlendSpace a_blendSpace)
         {
@@ -973,7 +974,7 @@ namespace MxMEditor
                 newBlendSpace.Smoothing = defaultSettings.BlendSpaceSmoothing;
                 newBlendSpace.GlobalTags = defaultSettings.RequireTags;
                 newBlendSpace.GlobalFavourTags = defaultSettings.FavourTags;
-
+                
                 newBlendSpace.ValidateBaseData();
 
                 success = true;
@@ -1010,8 +1011,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private bool AreMxMAnimsValid()
         {
@@ -1031,7 +1032,7 @@ namespace MxMEditor
 
                             if (composite.PrimaryClip == null)
                             {
-                                EditorUtility.DisplayDialog("Error: Empty Composite", "You have a composite with no animations in it. Anim Module: "
+                                EditorUtility.DisplayDialog("Error: Empty Composite", "You have a composite with no animations in it. Anim Module: " 
                                     + m_data.name + " Category: " + category.CatagoryName + "Composite: " + composite.CompositeName
                                     + ". Please add an animation or remove the composite before pre-processing", "Ok");
 
@@ -1054,7 +1055,7 @@ namespace MxMEditor
 
                         if (idleSet.PrimaryClip == null)
                         {
-                            EditorUtility.DisplayDialog("Error: Empty Idle Set", "You have a IdleSet with no animations in it. Anim Module: "
+                            EditorUtility.DisplayDialog("Error: Empty Idle Set", "You have a IdleSet with no animations in it. Anim Module: " 
                                 + m_data.name
                                 + ". Please add an animation or remove the idle set before pre-processing", "Ok");
 
@@ -1076,7 +1077,7 @@ namespace MxMEditor
 
                         if (clips == null || clips.Count == 0)
                         {
-                            EditorUtility.DisplayDialog("Error: Empty blend space", "You have a blendspace with no animations in it. Anim Module: "
+                            EditorUtility.DisplayDialog("Error: Empty blend space", "You have a blendspace with no animations in it. Anim Module: " 
                                 + m_data.name + " Blendspace: " + blendSpace.BlendSpaceName
                                 + ". Please add an animation or remove the blendspace before pre-processing", "Ok");
 
@@ -1087,7 +1088,7 @@ namespace MxMEditor
 
                         if (clips[0] == null)
                         {
-                            EditorUtility.DisplayDialog("Error: Empty blend space", "You have a blendspace with no animations in it. Anim Module: "
+                            EditorUtility.DisplayDialog("Error: Empty blend space", "You have a blendspace with no animations in it. Anim Module: " 
                                 + m_data.name + " Blendspace: " + blendSpace.BlendSpaceName
                                 + ". Please add an animation or remove the blendspace before pre-processing", "Ok");
 
@@ -1109,8 +1110,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private void UpdateTargetModelForAnimData()
         {
@@ -1143,7 +1144,7 @@ namespace MxMEditor
                         {
                             var configModule = m_spOverrideConfigModule.objectReferenceValue as MotionMatchConfigModule;
 
-                            if (composite.TargetPrefab != configModule.Prefab)
+                            if(composite.TargetPrefab != configModule.Prefab)
                             {
                                 composite.TargetPrefab = configModule.Prefab;
                                 EditorUtility.SetDirty(spComposite.objectReferenceValue);
@@ -1177,8 +1178,8 @@ namespace MxMEditor
 
         //============================================================================================
         /**
-        *  @brief
-        *
+        *  @brief 
+        *         
         *********************************************************************************************/
         private void SetupReorderableLists()
         {
@@ -1205,15 +1206,15 @@ namespace MxMEditor
 
                         if (element.objectReferenceValue != null)
                         {
-                            string testName = ((MxMAnimationClipComposite)element.objectReferenceValue).CompositeName;
+                            string testName = ((MxMAnimationClipComposite) element.objectReferenceValue).CompositeName;
                             if (testName != "")
                             {
                                 elementName = testName;
                             }
                         }
-
+                        
                         EditorGUI.LabelField(new Rect(a_rect.x, a_rect.y, 100f, EditorGUIUtility.singleLineHeight), elementName);
-
+                        
                         EditorGUI.ObjectField(new Rect(a_rect.x + 100f, a_rect.y, EditorGUIUtility.currentViewWidth - 170f,
                             EditorGUIUtility.singleLineHeight), element, new GUIContent(""));
 
@@ -1258,7 +1259,7 @@ namespace MxMEditor
                             }
                         }
 
-                        if (GUI.Button(new Rect(deleteRect.x - deleteRect.width - 15f, deleteRect.y,
+                        if(GUI.Button(new Rect(deleteRect.x - deleteRect.width - 15f, deleteRect.y,
                             deleteRect.width, deleteRect.height), "Export"))
                         {
                             ExportCategoryToModule(m_currentCompositeCategory);
@@ -1285,7 +1286,7 @@ namespace MxMEditor
                         Texture cogIcon = EditorGUIUtility.IconContent("_Popup").image;
                         if (GUI.Button(settingsBtnRect, cogIcon, invisiButton))
                         {
-                            CompositeCategorySettingsWindow.SetData(serializedObject, m_data,
+                            CompositeCategorySettingsWindow.SetData(serializedObject, m_data, 
                                 m_currentCompositeCategory);
                             CompositeCategorySettingsWindow.ShowWindow();
                         }
@@ -1350,9 +1351,9 @@ namespace MxMEditor
                     var element = m_blendSpaceReorderableList.serializedProperty.GetArrayElementAtIndex(a_index);
 
                     EditorGUI.BeginDisabledGroup(true);
-
+                    
                     MxMBlendSpace blendSpace = null;
-
+                    
                     if (m_data.BlendSpaces.Count > a_index)
                     {
                         blendSpace = m_data.BlendSpaces[a_index];
@@ -1362,7 +1363,7 @@ namespace MxMEditor
                     {
                         EditorGUI.LabelField(new Rect(a_rect.x, a_rect.y, 150f, EditorGUIUtility.singleLineHeight), "Blend Space " + (a_index + 1).ToString());
                     }
-
+                    
                     EditorGUI.ObjectField(new Rect(a_rect.x + 150f, a_rect.y, EditorGUIUtility.currentViewWidth - 170f,
                         EditorGUIUtility.singleLineHeight), element, new GUIContent(""));
 
@@ -1462,10 +1463,10 @@ namespace MxMEditor
 
             string startLocation = AssetDatabase.GetAssetPath(this).Replace(name + ".asset", "");
 
-            string fileName = EditorUtility.SaveFilePanelInProject("Export Composite Category",
+            string fileName = EditorUtility.SaveFilePanelInProject("Export Composite Category", 
                 "MxMAnimationModule", "asset", "Export composite category as", startLocation).Replace(".asset", "");
 
-            if (!string.IsNullOrEmpty(fileName))
+            if(!string.IsNullOrEmpty(fileName))
             {
                 bool shouldContinue = true;
 
@@ -1478,7 +1479,7 @@ namespace MxMEditor
                     shouldContinue = false;
                 }
 
-                if (shouldContinue)
+                if(shouldContinue)
                 {
                     AnimationModule animModule = ScriptableObject.CreateInstance<AnimationModule>();
                     AssetDatabase.CreateAsset(animModule, fileName + ".asset");
@@ -1498,8 +1499,8 @@ namespace MxMEditor
             AssetDatabase.SaveAssets();
 
             string startLocation = AssetDatabase.GetAssetPath(this).Replace(name + ".asset", "");
-
-            string fileName = EditorUtility.SaveFilePanelInProject("Export Mirrored Module",
+            
+            string fileName = EditorUtility.SaveFilePanelInProject("Export Mirrored Module", 
                 "MxMAnimationModule", "asset", "Export mirrored module as", startLocation).Replace(".asset", "");
 
             if (!string.IsNullOrEmpty(fileName))
@@ -1521,7 +1522,7 @@ namespace MxMEditor
                     AnimationModule animModule = ScriptableObject.CreateInstance<AnimationModule>();
                     AssetDatabase.CreateAsset(animModule, fileName + ".asset");
                     AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(animModule));
-
+                    
                     animModule.CopyModuleMirrored(m_data);
                 }
             }
