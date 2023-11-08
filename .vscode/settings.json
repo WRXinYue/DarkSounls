@@ -51,6 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DarkSounls2.sln",
-    "editor.formatOnSave": true,
+    "dotnet.defaultSolution": "DarkSounls.sln",
+    "editor.formatOnSave": true
 }
